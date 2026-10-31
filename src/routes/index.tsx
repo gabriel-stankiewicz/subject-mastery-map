@@ -81,6 +81,8 @@ function Index() {
 
 function SubjectCard({ s, update, remove }: { s: Subject; update: (id: string, fn: (s: Subject) => Subject) => void; remove: () => void }) {
   const [topic, setTopic] = useState("");
+  const [editingDate, setEditingDate] = useState(false);
+  const [dateDraft, setDateDraft] = useState("");
   const d = daysLeft(s.examDate);
   const p = progress(s.topics);
   const tone = d < 0 ? "bg-muted text-muted-foreground" : d <= 3 ? "bg-destructive text-destructive-foreground" : d <= 7 ? "bg-warning text-card-foreground" : "bg-card-foreground text-card";
@@ -90,7 +92,24 @@ function SubjectCard({ s, update, remove }: { s: Subject; update: (id: string, f
       <div className="flex items-start justify-between gap-2">
         <div>
           <h2 className="text-lg font-bold">{s.name}</h2>
-          <p className="text-xs text-muted-foreground">Egzamin: {new Date(s.examDate).toLocaleDateString("pl-PL")}</p>
+          {editingDate ? (
+            <form
+              className="mt-1 flex items-center gap-2"
+              onSubmit={(e) => {
+                e.preventDefault();
+                if (dateDraft) update(s.id, (x) => ({ ...x, examDate: dateDraft }));
+                setEditingDate(false);
+              }}
+            >
+              <input type="date" className="rounded-lg border border-input bg-background px-2 py-1 text-xs outline-none focus:ring-2 focus:ring-ring" value={dateDraft} onChange={(e) => setDateDraft(e.target.value)} autoFocus />
+              <button type="submit" className="rounded-lg bg-primary px-2 py-1 text-xs font-semibold text-primary-foreground hover:opacity-90">Zapisz</button>
+              <button type="button" className="text-xs text-muted-foreground hover:text-foreground" onClick={() => setEditingDate(false)}>Anuluj</button>
+            </form>
+          ) : (
+            <button className="text-xs text-muted-foreground underline decoration-dotted underline-offset-2 hover:text-foreground" aria-label="Zmień datę egzaminu" onClick={() => { setDateDraft(s.examDate); setEditingDate(true); }}>
+              Egzamin: {new Date(s.examDate).toLocaleDateString("pl-PL")}
+            </button>
+          )}
         </div>
         <span className={`rounded-full px-3 py-1 font-display text-sm font-bold ${tone}`}>{label}</span>
       </div>
