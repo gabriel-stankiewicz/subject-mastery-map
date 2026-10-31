@@ -67,7 +67,7 @@ function Index() {
           <section>
             <form onSubmit={addSubject} className="mb-6 flex flex-col gap-2 rounded-xl border border-surface-border bg-surface p-4 sm:flex-row">
               <input className={input} placeholder="Nazwa przedmiotu" value={name} onChange={(e) => setName(e.target.value)} />
-              <input className={`${input} sm:w-44`} type="date" value={date} onChange={(e) => setDate(e.target.value)} />
+              <input className={`${input} sm:w-44 [color-scheme:dark]`} type="date" value={date} onChange={(e) => setDate(e.target.value)} />
               <button className={btn}>Dodaj</button>
             </form>
             {sorted.length > 0 && (
