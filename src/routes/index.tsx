@@ -123,7 +123,7 @@ function SubjectCard({ s, update, remove }: { s: Subject; update: (id: string, f
               <button type="button" className="text-xs text-muted-foreground hover:text-card-foreground" onClick={() => setEditingName(false)}>Anuluj</button>
             </form>
           ) : (
-            <button className="block text-left text-lg font-bold hover:text-primary" aria-label="Zmień nazwę przedmiotu" onClick={() => { setNameDraft(s.name); setEditingName(true); }}>
+            <button className="block text-left text-lg font-bold hover:text-zinc-600" aria-label="Zmień nazwę przedmiotu" onClick={() => { setNameDraft(s.name); setEditingName(true); }}>
               {s.name}
             </button>
           )}
