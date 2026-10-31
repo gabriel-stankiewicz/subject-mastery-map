@@ -4,7 +4,7 @@ export type Task = { id: string; date: string; time: string; title: string; done
 
 /** Whole days from today (local) to exam date (YYYY-MM-DD). */
 export function daysLeft(examDate: string, today: Date = new Date()): number {
-  const [y, m, d] = examDate.split("-").map(Number);
+  const [y = 0, m = 1, d = 1] = examDate.split("-").map(Number);
   const exam = Date.UTC(y, m - 1, d);
   const now = Date.UTC(today.getFullYear(), today.getMonth(), today.getDate());
   return Math.round((exam - now) / 86400000);
