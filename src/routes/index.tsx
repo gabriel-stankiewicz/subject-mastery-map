@@ -38,6 +38,7 @@ const btn = "rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-primary-
 function Index() {
   const [subjects, setSubjects] = useStored<Subject[]>("planer.subjects", []);
   const [tasks, setTasks] = useStored<Task[]>("planer.tasks", []);
+  const [sort, setSort] = useStored<"date" | "alpha">("planer.sort", "date");
   const [name, setName] = useState("");
   const [date, setDate] = useState("");
 
@@ -50,7 +51,9 @@ function Index() {
   const update = (id: string, fn: (s: Subject) => Subject) =>
     setSubjects(subjects.map((s) => (s.id === id ? fn(s) : s)));
 
-  const sorted = [...subjects].sort((a, b) => a.examDate.localeCompare(b.examDate));
+  const sorted = [...subjects].sort((a, b) =>
+    sort === "alpha" ? a.name.localeCompare(b.name, "pl") : a.examDate.localeCompare(b.examDate)
+  );
 
   return (
     <div className="min-h-screen">
