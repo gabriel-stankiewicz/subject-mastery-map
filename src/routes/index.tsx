@@ -97,6 +97,10 @@ function SubjectCard({ s, update, remove }: { s: Subject; update: (id: string, f
   const [topic, setTopic] = useState("");
   const [editingDate, setEditingDate] = useState(false);
   const [dateDraft, setDateDraft] = useState("");
+  const [editingName, setEditingName] = useState(false);
+  const [nameDraft, setNameDraft] = useState("");
+  const [editingTopicId, setEditingTopicId] = useState<string | null>(null);
+  const [topicDraft, setTopicDraft] = useState("");
   const d = daysLeft(s.examDate);
   const p = progress(s.topics);
   const tone = d < 0 ? "bg-muted text-muted-foreground" : d <= 3 ? "bg-destructive text-destructive-foreground" : d <= 7 ? "bg-warning text-card-foreground" : "bg-card-foreground text-card";
@@ -104,8 +108,25 @@ function SubjectCard({ s, update, remove }: { s: Subject; update: (id: string, f
   return (
     <article className="rounded-xl bg-card p-5 text-card-foreground shadow-lg">
       <div className="flex items-start justify-between gap-2">
-        <div>
-          <h2 className="text-lg font-bold">{s.name}</h2>
+        <div className="min-w-0 flex-1">
+          {editingName ? (
+            <form
+              className="flex items-center gap-2"
+              onSubmit={(e) => {
+                e.preventDefault();
+                if (nameDraft.trim()) update(s.id, (x) => ({ ...x, name: nameDraft.trim() }));
+                setEditingName(false);
+              }}
+            >
+              <input className="min-w-0 flex-1 rounded-lg border border-input bg-background px-2 py-1 text-sm outline-none focus:ring-2 focus:ring-ring" value={nameDraft} onChange={(e) => setNameDraft(e.target.value)} autoFocus />
+              <button type="submit" className="rounded-lg bg-primary px-2 py-1 text-xs font-semibold text-primary-foreground hover:opacity-90">Zapisz</button>
+              <button type="button" className="text-xs text-muted-foreground hover:text-card-foreground" onClick={() => setEditingName(false)}>Anuluj</button>
+            </form>
+          ) : (
+            <button className="block text-left text-lg font-bold hover:text-primary" aria-label="Zmień nazwę przedmiotu" onClick={() => { setNameDraft(s.name); setEditingName(true); }}>
+              {s.name}
+            </button>
+          )}
           {editingDate ? (
             <form
               className="mt-1 flex items-center gap-2"
@@ -138,7 +159,24 @@ function SubjectCard({ s, update, remove }: { s: Subject; update: (id: string, f
           <li key={t.id} className="group flex items-center gap-2 text-sm">
             <input type="checkbox" className="size-4 accent-[var(--success)]" checked={t.done}
               onChange={() => update(s.id, (x) => ({ ...x, topics: x.topics.map((y) => (y.id === t.id ? { ...y, done: !y.done } : y)) }))} />
-            <span className={`flex-1 ${t.done ? "text-muted-foreground line-through" : ""}`}>{t.title}</span>
+            {editingTopicId === t.id ? (
+              <form
+                className="flex flex-1 items-center gap-2"
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  if (topicDraft.trim()) update(s.id, (x) => ({ ...x, topics: x.topics.map((y) => (y.id === t.id ? { ...y, title: topicDraft.trim() } : y)) }));
+                  setEditingTopicId(null);
+                }}
+              >
+                <input className="min-w-0 flex-1 rounded-lg border border-input bg-background px-2 py-0.5 text-sm outline-none focus:ring-2 focus:ring-ring" value={topicDraft} onChange={(e) => setTopicDraft(e.target.value)} onKeyDown={(e) => { if (e.key === "Escape") setEditingTopicId(null); }} autoFocus />
+                <button type="submit" className="rounded-lg bg-primary px-2 py-0.5 text-xs font-semibold text-primary-foreground hover:opacity-90">Zapisz</button>
+                <button type="button" className="text-xs text-muted-foreground hover:text-card-foreground" onClick={() => setEditingTopicId(null)}>Anuluj</button>
+              </form>
+            ) : (
+              <button className={`flex-1 text-left hover:text-primary ${t.done ? "text-muted-foreground line-through" : ""}`} aria-label="Zmień zagadnienie" onClick={() => { setTopicDraft(t.title); setEditingTopicId(t.id); }}>
+                {t.title}
+              </button>
+            )}
             <button className="text-muted-foreground opacity-0 group-hover:opacity-100" aria-label="Usuń zagadnienie"
               onClick={() => update(s.id, (x) => ({ ...x, topics: x.topics.filter((y) => y.id !== t.id) }))}>×</button>
           </li>
