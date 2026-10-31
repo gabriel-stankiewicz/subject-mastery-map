@@ -81,6 +81,8 @@ function Index() {
 
 function SubjectCard({ s, update, remove }: { s: Subject; update: (id: string, fn: (s: Subject) => Subject) => void; remove: () => void }) {
   const [topic, setTopic] = useState("");
+  const [editingDate, setEditingDate] = useState(false);
+  const [dateDraft, setDateDraft] = useState("");
   const d = daysLeft(s.examDate);
   const p = progress(s.topics);
   const tone = d < 0 ? "bg-muted text-muted-foreground" : d <= 3 ? "bg-destructive text-destructive-foreground" : d <= 7 ? "bg-warning text-card-foreground" : "bg-card-foreground text-card";
