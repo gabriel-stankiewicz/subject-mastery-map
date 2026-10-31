@@ -108,8 +108,25 @@ function SubjectCard({ s, update, remove }: { s: Subject; update: (id: string, f
   return (
     <article className="rounded-xl bg-card p-5 text-card-foreground shadow-lg">
       <div className="flex items-start justify-between gap-2">
-        <div>
-          <h2 className="text-lg font-bold">{s.name}</h2>
+        <div className="min-w-0 flex-1">
+          {editingName ? (
+            <form
+              className="flex items-center gap-2"
+              onSubmit={(e) => {
+                e.preventDefault();
+                if (nameDraft.trim()) update(s.id, (x) => ({ ...x, name: nameDraft.trim() }));
+                setEditingName(false);
+              }}
+            >
+              <input className="min-w-0 flex-1 rounded-lg border border-input bg-background px-2 py-1 text-sm outline-none focus:ring-2 focus:ring-ring" value={nameDraft} onChange={(e) => setNameDraft(e.target.value)} autoFocus />
+              <button type="submit" className="rounded-lg bg-primary px-2 py-1 text-xs font-semibold text-primary-foreground hover:opacity-90">Zapisz</button>
+              <button type="button" className="text-xs text-muted-foreground hover:text-card-foreground" onClick={() => setEditingName(false)}>Anuluj</button>
+            </form>
+          ) : (
+            <button className="text-left text-lg font-bold hover:text-primary" aria-label="Zmień nazwę przedmiotu" onClick={() => { setNameDraft(s.name); setEditingName(true); }}>
+              {s.name}
+            </button>
+          )}
           {editingDate ? (
             <form
               className="mt-1 flex items-center gap-2"
