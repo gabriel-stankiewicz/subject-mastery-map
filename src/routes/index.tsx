@@ -159,7 +159,24 @@ function SubjectCard({ s, update, remove }: { s: Subject; update: (id: string, f
           <li key={t.id} className="group flex items-center gap-2 text-sm">
             <input type="checkbox" className="size-4 accent-[var(--success)]" checked={t.done}
               onChange={() => update(s.id, (x) => ({ ...x, topics: x.topics.map((y) => (y.id === t.id ? { ...y, done: !y.done } : y)) }))} />
-            <span className={`flex-1 ${t.done ? "text-muted-foreground line-through" : ""}`}>{t.title}</span>
+            {editingTopicId === t.id ? (
+              <form
+                className="flex flex-1 items-center gap-2"
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  if (topicDraft.trim()) update(s.id, (x) => ({ ...x, topics: x.topics.map((y) => (y.id === t.id ? { ...y, title: topicDraft.trim() } : y)) }));
+                  setEditingTopicId(null);
+                }}
+              >
+                <input className="min-w-0 flex-1 rounded-lg border border-input bg-background px-2 py-0.5 text-sm outline-none focus:ring-2 focus:ring-ring" value={topicDraft} onChange={(e) => setTopicDraft(e.target.value)} onKeyDown={(e) => { if (e.key === "Escape") setEditingTopicId(null); }} autoFocus />
+                <button type="submit" className="rounded-lg bg-primary px-2 py-0.5 text-xs font-semibold text-primary-foreground hover:opacity-90">Zapisz</button>
+                <button type="button" className="text-xs text-muted-foreground hover:text-card-foreground" onClick={() => setEditingTopicId(null)}>Anuluj</button>
+              </form>
+            ) : (
+              <button className={`flex-1 text-left hover:text-primary ${t.done ? "text-muted-foreground line-through" : ""}`} aria-label="Zmień zagadnienie" onClick={() => { setTopicDraft(t.title); setEditingTopicId(t.id); }}>
+                {t.title}
+              </button>
+            )}
             <button className="text-muted-foreground opacity-0 group-hover:opacity-100" aria-label="Usuń zagadnienie"
               onClick={() => update(s.id, (x) => ({ ...x, topics: x.topics.filter((y) => y.id !== t.id) }))}>×</button>
           </li>
