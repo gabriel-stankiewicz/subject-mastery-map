@@ -106,7 +106,7 @@ function SubjectCard({ s, update, remove }: { s: Subject; update: (id: string, f
               <button type="button" className="text-xs text-muted-foreground hover:text-foreground" onClick={() => setEditingDate(false)}>Anuluj</button>
             </form>
           ) : (
-            <button className="text-xs text-muted-foreground underline decoration-dotted underline-offset-2 hover:text-foreground" aria-label="Zmień datę egzaminu" onClick={() => { setDateDraft(s.examDate); setEditingDate(true); }}>
+            <button className="text-xs text-muted-foreground underline decoration-dotted underline-offset-2 hover:text-card-foreground" aria-label="Zmień datę egzaminu" onClick={() => { setDateDraft(s.examDate); setEditingDate(true); }}>
               Egzamin: {new Date(s.examDate).toLocaleDateString("pl-PL")}
             </button>
           )}
