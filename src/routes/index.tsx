@@ -166,7 +166,7 @@ function Schedule({ tasks, setTasks }: { tasks: Task[]; setTasks: (t: Task[]) =>
       <input type="date" className={`${input} [color-scheme:dark]`} value={day} onChange={(e) => setDay(e.target.value)} />
       <form className="mt-3 flex gap-2" onSubmit={(e) => { e.preventDefault(); if (!title.trim() || !day) return;
         setTasks([...tasks, { id: uid(), date: day, time, title: title.trim(), done: false }]); setTitle(""); setTime(""); }}>
-        <input type="time" className={`${input} w-28`} value={time} onChange={(e) => setTime(e.target.value)} />
+        <input type="time" className={`${input} w-28 [color-scheme:dark]`} value={time} onChange={(e) => setTime(e.target.value)} />
         <input className={input} placeholder="Co uczysz?" value={title} onChange={(e) => setTitle(e.target.value)} />
         <button className={btn}>+</button>
       </form>
