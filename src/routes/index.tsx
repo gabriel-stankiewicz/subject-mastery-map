@@ -117,7 +117,7 @@ function SubjectCard({ s, update, remove }: { s: Subject; update: (id: string, f
             >
               <input type="date" className="rounded-lg border border-input bg-background px-2 py-1 text-xs text-[var(--success)] outline-none focus:ring-2 focus:ring-ring [color-scheme:dark]" value={dateDraft} onChange={(e) => setDateDraft(e.target.value)} autoFocus />
               <button type="submit" className="rounded-lg bg-primary px-2 py-1 text-xs font-semibold text-primary-foreground hover:opacity-90">Zapisz</button>
-              <button type="button" className="text-xs text-muted-foreground hover:text-foreground" onClick={() => setEditingDate(false)}>Anuluj</button>
+              <button type="button" className="text-xs text-muted-foreground hover:text-card-foreground" onClick={() => setEditingDate(false)}>Anuluj</button>
             </form>
           ) : (
             <button className="text-xs text-muted-foreground underline decoration-dotted underline-offset-2 hover:text-card-foreground" aria-label="Zmień datę egzaminu" onClick={() => { setDateDraft(s.examDate); setEditingDate(true); }}>
