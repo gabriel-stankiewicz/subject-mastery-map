@@ -118,7 +118,7 @@ function SubjectCard({ s, update, remove }: { s: Subject; update: (id: string, f
                 setEditingName(false);
               }}
             >
-              <input className="min-w-0 flex-1 rounded-lg border border-input bg-background px-2 py-1 text-sm outline-none focus:ring-2 focus:ring-ring" value={nameDraft} onChange={(e) => setNameDraft(e.target.value)} autoFocus />
+              <input className="min-w-0 flex-1 rounded-lg border border-input bg-background px-2 py-1 text-sm text-foreground outline-none focus:ring-2 focus:ring-ring" value={nameDraft} onChange={(e) => setNameDraft(e.target.value)} autoFocus />
               <button type="submit" className="rounded-lg bg-primary px-2 py-1 text-xs font-semibold text-primary-foreground hover:opacity-90">Zapisz</button>
               <button type="button" className="text-xs text-muted-foreground hover:text-card-foreground" onClick={() => setEditingName(false)}>Anuluj</button>
             </form>
@@ -168,7 +168,7 @@ function SubjectCard({ s, update, remove }: { s: Subject; update: (id: string, f
                   setEditingTopicId(null);
                 }}
               >
-                <input className="min-w-0 flex-1 rounded-lg border border-input bg-background px-2 py-0.5 text-sm outline-none focus:ring-2 focus:ring-ring" value={topicDraft} onChange={(e) => setTopicDraft(e.target.value)} onKeyDown={(e) => { if (e.key === "Escape") setEditingTopicId(null); }} autoFocus />
+                <input className="min-w-0 flex-1 rounded-lg border border-input bg-background px-2 py-0.5 text-sm text-foreground outline-none focus:ring-2 focus:ring-ring" value={topicDraft} onChange={(e) => setTopicDraft(e.target.value)} onKeyDown={(e) => { if (e.key === "Escape") setEditingTopicId(null); }} autoFocus />
                 <button type="submit" className="rounded-lg bg-primary px-2 py-0.5 text-xs font-semibold text-primary-foreground hover:opacity-90">Zapisz</button>
                 <button type="button" className="text-xs text-muted-foreground hover:text-card-foreground" onClick={() => setEditingTopicId(null)}>Anuluj</button>
               </form>
